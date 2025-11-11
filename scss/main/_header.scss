@@ -1,0 +1,115 @@
+@use '../main/mixin' as *;
+
+.header {
+    padding: 20px 0;
+    &_top {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 17px;
+        &_menu {
+            display: flex;
+            gap: 25px;
+            justify-content: flex-start;
+            align-items: center;
+            margin-right: auto;
+            &_li {
+                a {
+                    font-weight: 500;
+                    font-size: 16px;
+                    &:hover {
+                        @include color;
+                    }
+                }
+
+            }
+        }
+        &_two {
+            display: flex;
+            justify-content: flex-start;
+            gap: 10px;
+            &_item {
+                border-radius: 5px;
+                padding: 5px 10px;
+                background-color: #F8F8F8;
+                font-weight: 400;
+                font-size: 14px;
+            }
+        }
+        &_soc {
+            display: flex;
+            justify-content: flex-end;
+            gap: 17px;
+            align-items: center;
+            &_item {
+                font-weight: 700;
+                font-size: 16px;
+                position: relative;
+                &:hover {
+                    .header_top_soc_item_menu {
+                        display: block;
+                        position: absolute;
+                        background-color: #fff;
+                        width: 110%;
+                        top: 100%;
+                        left: -6px;
+                        border-radius: 2px;
+                        padding: 6px;
+                    }
+                }
+                &_menu {
+                    display: none;
+                }
+                &_text {
+                    display: flex;
+                    justify-content: center;
+                    gap: 5px;
+                    align-items: center;
+                }
+            }
+        }
+    }
+    &_bottom {
+        margin-top: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        &_icon {
+            height: 54px;
+            width: 178px;
+            img {
+                width: 100%;
+                height: 100%;
+            }
+        }
+        &_search {
+            flex: 1;
+            margin: 0 20px 0 32px;
+            border-radius: 2px;
+            padding: 14px 18px;
+            background-color: #F8F8F8;
+            display: flex;
+            justify-content: flex-start;
+            gap: 10px;
+            &_input {
+                border: none;
+                background-color: #F8F8F8;
+                &::placeholder {
+                    color: #939DB8;
+                }
+            }
+        }
+        &_soc {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            &_item {
+                padding: 11px 11px 10px 10px;
+                img {
+                    height: 35px;
+                    width: 35px;
+                }
+            }
+        }
+    }
+}   

@@ -1,0 +1,37 @@
+@use '../main/mixin' as *;
+
+.title {
+    padding: 80px 0;
+    &_wrapper {
+        display: grid;
+        grid-template-columns: 5fr 6fr;
+        gap: 36px;
+    }
+    &_text {
+        &_h1 {
+            font-weight: 700;
+            font-size: 55px;
+            text-transform: uppercase;
+            line-height: 115%;
+        }
+        &_descr {
+            margin-top: 20px;
+            font-weight: 400;
+            font-size: 18px;
+        }
+        &_wrapper {
+            margin-top: 30px;
+            display: flex;
+            justify-content: flex-start;
+            gap: 20px;
+            &_button {
+                &:nth-child(1) {
+                    @include butred;
+                }
+                &:nth-child(2) {
+                    @include butgrey;
+                }
+            }
+        }
+    }
+}
