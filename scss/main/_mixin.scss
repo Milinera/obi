@@ -1,9 +1,9 @@
 @mixin color {
-    color: #F15F43;
+    color: var(--primary-main);
 }
 
 @mixin bg {
-    background-color: #F15F43;
+    background-color: var(--primary-main);
 }
 
 @mixin butred {
@@ -12,8 +12,12 @@
     font-size: 18px;
     padding: 16px 24px;
     text-align: center;
-    background-color: #F15F43;
+    background-color: var(--primary-main);
     color: #fff;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    align-items: center;
 }
 
 
@@ -23,7 +27,7 @@
     font-size: 18px;
     padding: 16px 24px;
     text-align: center;
-    background-color: #E8EBEE;
+    background-color: var(--grey-light3);
     color: #111;
     display: flex;
     justify-content: center;

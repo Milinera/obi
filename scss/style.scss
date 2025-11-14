@@ -1,8 +1,13 @@
 @use 'main/reset';
 @use 'main/fonts';
 @use 'main/main';
+@use 'main/variables';
 @use 'main/mixin';
 
 @use 'main/header';
 
 @use 'index/title';
+@use 'index/perf';
+@use 'index/full';
+@use 'index/comp';
+@use 'index/hist';

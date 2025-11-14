@@ -1,0 +1,72 @@
+@use '../main/mixin' as *;
+
+.full {
+    margin-top: 120px;
+    &_main {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 90px;
+        justify-content: space-between;
+        align-content: flex-start;
+        &_title {
+            font-weight: 600;
+            font-size: 45px;
+            line-height: 115%;
+        }
+        &_wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 42px;
+            align-items: flex-start;
+        }
+        &_descr {
+            font-weight: 400;
+            font-size: 18px;
+            line-height: 160%;
+        }
+        &_button {
+            @include butred;
+        }
+    }
+    &_grid {
+        margin-top: 50px;
+        display: grid;  
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-rows: auto auto auto;
+        gap: 40px 20px;
+    }
+    &_item {
+        &_photo {
+            border-radius: 5px;
+            height: 280px;
+            overflow: hidden;
+            display: block;
+            img {
+                height: 100%;
+                width: 100%;
+                object-fit: cover;
+            }
+        }
+        &_wrapper {
+            margin-top: 20px;
+        }
+        &_title {
+            font-weight: 600;
+            font-size: 22px;
+            line-height: 130%;
+        }
+        &_a {
+            margin-top: 8px;
+            display: block;
+            font-weight: 500;
+            font-size: 14px;
+            line-height: 150%;
+            text-decoration: underline;
+            text-decoration-skip-ink: none;
+            color: var(--primary-main);
+            &:first-child {
+                margin-top: 10px;
+            }
+        }
+    }
+}

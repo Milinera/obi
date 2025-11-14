@@ -31,7 +31,7 @@
             &_item {
                 border-radius: 5px;
                 padding: 5px 10px;
-                background-color: #F8F8F8;
+                background: var(--grey-light4);
                 font-weight: 400;
                 font-size: 14px;
             }
@@ -87,13 +87,13 @@
             margin: 0 20px 0 32px;
             border-radius: 2px;
             padding: 14px 18px;
-            background-color: #F8F8F8;
+            background: var(--grey-light4);
             display: flex;
             justify-content: flex-start;
             gap: 10px;
             &_input {
                 border: none;
-                background-color: #F8F8F8;
+                background: var(--grey-light4);
                 &::placeholder {
                     color: #939DB8;
                 }

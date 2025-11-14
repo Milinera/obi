@@ -1,0 +1,33 @@
+@use '../main/mixin' as *;
+
+.perf {
+    margin-top: 20px;
+    &_wrap {
+        display: grid;
+        justify-content: center;
+        gap: 20px;
+        grid-template-columns: repeat(4, 1fr);
+    }
+    &_item {
+        border-radius: 10px;
+        padding: 25px;
+        background: var(--grey-light4);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        &_img {
+            height: 170px;
+            img {
+                width: 100%;
+                height: 100%;
+            }
+        }
+        &_title {
+            margin-top: 10px;
+            font-weight: 500;
+            font-size: 20px;
+            line-height: 140%;
+            text-align: center;
+        }
+    }
+}
