@@ -1,0 +1,92 @@
+@use '../main/mixin' as *;
+
+.serf {
+    overflow-x: hidden;
+    margin-top: 120px;
+    &_title {
+        font-weight: 600;
+        font-size: 45px;
+        line-height: 115%;
+        text-align: center;
+    }
+    &_block {
+        top: 0;
+        overflow: hidden;
+        visibility: hidden;
+        opacity: 0;
+        position: absolute;
+        &_active {
+            overflow: visible;
+            visibility: visible;
+            opacity: 1;
+            position: relative
+        }
+    }
+    &_buttons {
+        margin-top: 30px;
+        display: flex;
+        justify-content: center;
+        gap: 16px;
+        &_button {
+            @include butgrey;
+            &_active {
+                @include butred;
+            }
+        }
+    }
+    &_wrapper {
+        margin-top: 50px;
+        display: flex;
+        flex-wrap: nowrap;  
+        overflow: visible;
+        gap: 20px;
+        transition: transform 0.5s ease;
+    }
+    &_item {    
+        flex: 0 0 33%;
+        &_photo {
+            border-radius: 5px;
+            height: 470px;
+            background: var(--grey-light4);
+            padding: 57px 64px;
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+        }
+        &_title {
+            margin-top: 20px;
+            font-weight: 600;
+            font-size: 24px;
+            line-height: 130%;
+            text-align: center;
+        }
+        &_descr {
+            margin-top: 10px;
+            font-weight: 500;
+            font-size: 18px;
+            line-height: 150%;
+            text-align: center;
+        }
+    }
+    &_button {
+        margin-top: 40px;
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        &_item {
+            border-radius: 2px;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: var(--grey-light3);
+            border-radius: 2px;
+            cursor: pointer;
+            &_disabled {
+                cursor: auto;
+            }
+        }
+    }
+}

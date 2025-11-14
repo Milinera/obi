@@ -1,0 +1,98 @@
+@use '../main/mixin' as *;
+
+.qul {
+    overflow-x: hidden;
+    margin-top: 120px;
+    &_title {
+        font-weight: 600;
+        font-size: 45px;
+        line-height: 115%;
+        text-align: center;
+    }
+    &_descr {
+        margin-top: 20px;
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 160%;
+        text-align: center;
+    }
+    &_wrapper {
+        margin-top: 50px;
+        display: flex;
+        flex-wrap: nowrap;  
+        overflow: visible;
+        gap: 20px;
+        transition: transform 0.5s ease;
+    }
+    &_item {    
+        flex: 0 0 33%;
+        &_photo {
+            height: 470px;
+            width: 100%;
+            flex: 0 0 33%;
+            overflow: hidden;
+            position: relative;
+            &_galery {
+                display: flex;
+                flex-wrap: nowrap;
+                height: 100%;
+                transition: transform 0.3s ease;
+                &_item {
+                    min-width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    border-radius: 5px;
+                }
+            }
+            &_button {
+                position: absolute;
+                bottom: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                display: flex;
+                justify-content: center;
+                gap: 8px;
+                &_btn {
+                    border-radius: 1px;
+                    width: 9px;
+                    height: 9px;
+                    background: var(--grey-light2);
+                    &_active {
+                        background: var(--primary-main);
+                    }
+                }
+            }
+        }
+        &_title {
+            margin-top: 20px;
+            font-weight: 600;
+            font-size: 24px;
+            line-height: 130%;
+        }
+        &_loc {
+            margin-top: 10px;
+            font-weight: 500;
+            font-size: 18px;
+            line-height: 150%;
+        }
+    }
+    &_button {
+        margin-top: 40px;
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        &_item {
+            border-radius: 2px;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: var(--grey-light3);
+            border-radius: 2px;
+            cursor: pointer;
+            &_disabled {
+                cursor: auto;
+            }
+        }
+    }
+}
