@@ -5,6 +5,8 @@
 @use 'main/mixin';
 
 @use 'main/header';
+@use 'main/footer';
+
 
 @use 'index/title';
 @use 'index/perf';
@@ -14,3 +16,6 @@
 @use 'index/part';
 @use 'index/qul';
 @use 'index/serf';
+@use 'index/step';
+@use 'index/form';
+@use 'index/ab';

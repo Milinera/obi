@@ -1,0 +1,31 @@
+@use '../main/mixin' as *;
+
+
+.ab {
+    margin-top: 164px;
+    &_title {
+        font-weight: 600;
+        font-size: 45px;
+        line-height: 115%;
+    }
+    &_descr {
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 150%;
+        margin-top: 30px;
+    }
+    &_item {
+        margin-top: 24px;
+        &_title {
+            font-weight: 600;
+            font-size: 30px;
+            line-height: 115%;
+        }
+        &_descr {
+            margin-top: 16px;
+            font-weight: 500;
+            font-size: 16px;
+            line-height: 150%;
+        }
+    }
+}
