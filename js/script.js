@@ -173,3 +173,21 @@ document.addEventListener('DOMContentLoaded', function() {
     updateCarousel();
   });
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+  const button = document.querySelector('.more_button');
+  const button2 = document.querySelector('.more_button_del');
+  const text = document.querySelector('.more_text');
+
+  button.addEventListener('click', function() {
+    text.classList.add('more_text_active');
+    button.style.display = 'none';
+    button2.style.display = 'block';
+  });
+
+  button2.addEventListener('click', function() {
+    text.classList.remove('more_text_active');
+    button2.style.display = 'none';
+    button.style.display = 'flex';
+  });
+});

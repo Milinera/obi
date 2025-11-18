@@ -2,6 +2,9 @@
 
 .full {
     margin-top: 120px;
+    &_catalogue {
+        margin-top: 30px;
+    }
     &_main {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -26,6 +29,29 @@
         }
         &_button {
             @include butred;
+        }
+        &_cat {
+            &_text {
+                &_title {
+                    font-weight: 600;
+                    font-size: 45px;
+                    line-height: 115%;
+                }
+                &_descr {
+                    margin-top: 24px;
+                    font-weight: 400;
+                    font-size: 16px;
+                    line-height: 160%;
+                }
+            }
+            &_button {
+                display: flex;
+                justify-content: flex-end;
+                align-items: start;
+                &_btn {
+                    @include butgrey;
+                }
+            }
         }
     }
     &_grid {

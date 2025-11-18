@@ -1,0 +1,123 @@
+@use '../main/mixin' as *;
+
+.footer {
+    margin-top: 120px;
+    background: var(--grey-light4);
+    &_top {
+        padding-top: 50px;
+        display: grid;
+        grid-template-columns: 6fr 5fr;
+        gap: 90px;
+        justify-content: center;
+        border-bottom: 1px solid var(--grey-light3);
+        padding-bottom: 23px;
+        &_left {
+            display: grid;
+            grid-template-columns: 132px auto;
+            justify-content: flex-start;
+            gap: 68px;
+            &_icon {
+                max-height: 132px;
+                img {
+                    max-height: 132px;
+                }
+            }
+            &_menu {
+                display: grid;
+                grid-template-columns: auto auto;
+                grid-template-rows: auto;
+                gap: 16px 30px;
+                justify-content: start;
+                align-items: center;
+                align-content: start;
+                &_li {
+                    display: block;
+                    font-weight: 500;
+                    font-size: 18px;
+                    line-height: 130%;
+                }
+            }
+        }
+        &_right {
+            border-radius: 5px;
+            padding: 16px;
+            background: #fff;
+            &_item {
+                margin-top: 12px;
+                display: flex;
+                justify-content: flex-start;
+                gap: 8px;
+                align-items: center;
+                &_img {
+                    height: 21px;
+                }
+                &_text {
+                    font-weight: 600;
+                    font-size: 16px;
+                    line-height: 130%;
+                }
+                &:first-child {
+                    margin-top: 0;
+                }
+            }
+        }
+    }
+    &_middle {
+        margin-top: 23px;
+        padding-bottom: 23px;
+        display: grid;
+        grid-template-columns: 6fr 5fr;
+        gap: 100px;
+        align-items: center;
+        border-bottom: 1px solid var(--grey-light3);
+        &_text {
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 150%;
+            color: var(--grey-dark1);
+        }
+        &_buttons {
+            display: flex;
+            justify-content: flex-start;
+            gap: 12px;
+            &_button {
+                &:first-child {
+                    @include butred;
+                    padding: 16px 50px;
+                    white-space: nowrap;
+                }
+                &:last-child {
+                    @include butgrey;
+                    padding: 16px 41px;
+                    white-space: nowrap;
+                }
+            }
+        }
+    }
+    &_bottom {
+        margin-top: 23px;
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        padding-bottom: 50px;
+        &_menu {
+            display: flex;
+            justify-content: flex-start;
+            gap: 30px;
+            &_li {
+                font-weight: 300;
+                font-size: 14px;
+                line-height: 150%;
+                text-decoration: underline;
+                text-decoration-skip-ink: none;
+                color: var(--grey-main);
+            }
+        }
+        &_text {
+            font-weight: 400;
+            font-size: 12px;
+            line-height: 150%;
+            color: var(--grey-main);
+        }
+    }
+}

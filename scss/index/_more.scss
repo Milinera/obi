@@ -1,0 +1,41 @@
+@use '../main/mixin' as *;
+
+.more {
+    margin-top: 164px;
+    &_title {
+        font-weight: 600;
+        font-size: 45px;
+        line-height: 115%;
+    }
+    &_text {
+        margin-top: 30px;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 150%;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 6;
+        overflow: hidden;
+        &_active {
+            display: block;
+        }
+    }
+    &_button {
+        text-align: left;
+        margin-top: 20px;
+        font-weight: 700;
+        font-size: 18px;
+        line-height: 130%;
+        color: var(--primary-main);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        cursor: pointer;
+        svg {
+            margin-top: 3px;
+        }
+        &_del {
+            display: none;
+        }
+    }
+}

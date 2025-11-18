@@ -1,0 +1,10 @@
+@use '../main/mixin' as *;
+
+.onas {
+    margin-top: 30px;
+    &_top {
+        display: grid;
+        grid-template-columns: 7fr 3fr ;
+        gap: 20px;
+    }
+}
