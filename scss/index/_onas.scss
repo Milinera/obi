@@ -2,9 +2,104 @@
 
 .onas {
     margin-top: 30px;
+    overflow: hidden;
     &_top {
         display: grid;
         grid-template-columns: 7fr 3fr ;
         gap: 20px;
+        padding-bottom: 40px;
+        border-bottom: 1px solid var(--grey-light3);
+        &_title {
+            &_text {
+                font-weight: 600;
+                font-size: 55px;
+                line-height: 115%;
+            }
+            &_descr {
+                margin-top: 24px;
+                font-weight: 700;
+                font-size: 18px;
+                line-height: 160%;
+            }
+        }
+        &_img {
+            padding: 85px;
+            background: var(--grey-light4);
+            border-radius: 5px;
+        }
+    }
+    &_block {
+        overflow: hidden;
+        position: relative;
+    }
+    &_slider {
+        padding-top: 40px;
+        display: flex;
+        flex-wrap: nowrap;
+        transition: transform 0.3s ease;
+    }
+    &_item {
+        min-width: 100%;
+        &_wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            &_title {
+                font-weight: 600;
+                font-size: 40px;
+                line-height: 115%;
+            }
+            &_descr {
+                font-weight: 400;
+                font-size: 16px;
+                line-height: 160%;
+            }
+        }
+        &_img {
+            margin-top: 30px;
+            img {
+                width: 100%;
+                border-radius: 5px;
+                height: 530px;
+                object-fit: cover;
+            }
+        }
+    }
+    &_button {
+        margin-top: 40px;
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        &_item {
+            border-radius: 2px;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: var(--grey-light3);
+            border-radius: 2px;
+            cursor: pointer;
+            &_disabled {
+                cursor: auto;
+            }
+        }
+    }
+    &_dots {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        &_dot {
+            border-radius: 1px;
+            width: 9px;
+            height: 9px;
+            background: var(--grey-light2);
+            &_active {
+                background: var(--primary-main);
+            }
+        }
     }
 }

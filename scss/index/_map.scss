@@ -1,0 +1,72 @@
+@use '../main/mixin' as *;
+
+.map {
+    margin-top: 164px;
+    &_contacts {
+        margin-top: 30px;
+    }
+    &_wrapper {
+        display: grid;
+        grid-template-columns: 4fr 6fr;
+        gap: 20px;
+    }
+    &_content {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    &_title {
+        font-weight: 600;
+        font-size: 45px;
+        line-height: 115%;
+    }
+    &_descr {
+        margin-top: 24px;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 160%;
+    }
+    &_block {
+        margin-top: 20px;
+        background: var(--grey-light4);
+        border-radius: 5px;
+        padding: 16px;
+        &_item {
+            display: flex;
+            justify-content: flex-start;
+            gap: 8px;
+            align-items: start;
+            font-weight: 600;
+            font-size: 16px;
+            line-height: 130%;
+            margin-top: 12px;
+            img {
+                height: 21px;
+            }
+            &:first-child {
+                margin-top: 0px;
+            }
+        }
+    }
+    &_buttons {
+        margin-top: 30px;
+        display: flex;
+        justify-content: start;
+        gap: 16px;
+        &_button {
+            &:first-child {
+                @include butred;
+            }
+            &:last-child {
+                @include butgrey;
+            }
+        }
+    }
+    &_cart {
+        display: flex;
+        justify-content: flex-end;
+        iframe {
+            border-radius: 10px;
+        }
+    }
+}

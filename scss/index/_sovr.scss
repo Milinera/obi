@@ -1,0 +1,60 @@
+@use '../main/mixin' as *;
+
+.sovr {
+    margin-top: 120px;
+    &_top {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+        &_title {
+            font-weight: 600;
+            font-size: 45px;
+            line-height: 115%;
+        }
+        &_descr {
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 160%;
+        }
+    }
+    &_num {
+        margin-top: 40px;
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        justify-content: center;
+        gap: 30px;
+        align-content: flex-start;
+        &_item {
+            &_num {
+                font-weight: 700;
+                font-size: 50px;
+                line-height: 115%;
+                color: var(--primary-main);
+            }
+            &_title {
+                margin-top: 16px;
+                font-weight: 600;
+                font-size: 20px;
+                line-height: 130%;
+            }
+            &_descr {
+                margin-top: 8px;
+                font-weight: 400;
+                font-size: 14px;
+                line-height: 160%;
+            }
+        }
+    }
+    &_photos {
+        margin-top: 50px;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        img {
+            height: 253px;
+            width: 100%;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+    }
+}

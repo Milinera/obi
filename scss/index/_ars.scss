@@ -1,0 +1,67 @@
+@use '../main/mixin' as *;
+
+.ars {
+    margin-top: 120px;
+    &_wrapper {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+    &_text {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        &_title {
+            font-weight: 600;
+            font-size: 45px;
+            line-height: 115%;
+        }
+        &_descr {
+            margin-top: 24px;
+            font-weight: 600;
+            font-size: 22px;
+            line-height: 130%;
+        }
+        &_wrapper {
+            margin-top: 16px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px 20px;
+            justify-content: start;
+        }
+        &_item {
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 160%;
+            display: flex;
+            justify-content: flex-start;
+            gap: 8px;
+            align-items: center;
+            &::before {
+                content: '';
+                display: block;
+                border-radius: 1px;
+                width: 6px;
+                height: 6px;
+                background: var(--primary-light1);
+            }
+        }
+        &_button {
+            @include butred;
+            margin-top: 40px;
+            display: flex;
+        }
+    }
+    &_img {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr 1fr;
+        gap: 20px;
+        &_block {
+            img {
+                height: 270px;
+                border-radius: 5px;
+            }
+        }
+    }
+}

@@ -1,18 +1,18 @@
+//слайдер с проектами компании
 document.addEventListener('DOMContentLoaded', function() {
 const wrapper = document.querySelector('.qul_wrapper');
 const items = document.querySelectorAll('.qul_item');
 const btns = document.querySelectorAll('.qul_button_item');
 
-let currentIndex = 0; // индекс первого видимого блока
-const visibleCount = 3; // сколько блоков должно быть видно
-const itemWidth = items[0].offsetWidth + 20; // ширина + gap
-const maxIndex = items.length - visibleCount; // последний возможный старт
+let currentIndex = 0;
+const visibleCount = 3;
+const itemWidth = items[0].offsetWidth + 20;
+const maxIndex = items.length - visibleCount;
 
 function updateCarousel() {
   const offset = -(currentIndex * itemWidth);
   wrapper.style.transform = `translateX(${offset}px)`;
 
-  // управление классами кнопок
   if (currentIndex === 0) {
     btns[0].classList.add('qul_button_item_disabled');
   } else {
@@ -45,6 +45,8 @@ updateCarousel();
 });
 
 
+
+//слайдер внутри блоков с проектами компании
 document.addEventListener('DOMContentLoaded', function() {
   const galleries = document.querySelectorAll('.qul_item_photo_galery');
 
@@ -84,7 +86,6 @@ document.addEventListener('DOMContentLoaded', function() {
       buttons[currentIndex].classList.add('qul_item_photo_button_btn_active');
     }
 
-    // свайп на контейнере галереи
     gallery.addEventListener('touchstart', function(e) {
       startX = e.touches[0].clientX;
     });
@@ -92,12 +93,10 @@ document.addEventListener('DOMContentLoaded', function() {
     gallery.addEventListener('touchend', function(e) {
       endX = e.changedTouches[0].clientX;
       if (endX < startX - 50 && currentIndex < items.length - 1) {
-        // свайп влево
         currentIndex++;
         updateCarousel();
         appButtons();
       } else if (endX > startX + 50 && currentIndex > 0) {
-        // свайп вправо
         currentIndex--;
         updateCarousel();
         appButtons();
@@ -110,11 +109,12 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
+
+//слайдер и переключатель для блока с благодарностями и сертификатами 
 document.addEventListener('DOMContentLoaded', function() {
   const buttons = document.querySelectorAll('.serf_buttons_button');
   const blocks = document.querySelectorAll('.serf_block');
 
-  // переключение вкладок
   buttons.forEach(function(btn, index) {
     btn.addEventListener('click', () => {
       buttons.forEach(b => b.classList.remove('serf_buttons_button_active'));
@@ -125,7 +125,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
-  // инициализация карусели для каждого блока
   blocks.forEach(block => {
     const wrapper = block.querySelector('.serf_wrapper');
     const items = block.querySelectorAll('.serf_item');
@@ -140,7 +139,6 @@ document.addEventListener('DOMContentLoaded', function() {
       const offset = -(currentIndex * itemWidth);
       wrapper.style.transform = `translateX(${offset}px)`;
 
-      // управление классами кнопок
       if (currentIndex === 0) {
         btns[0].classList.add('serf_button_item_disabled');
       } else {
@@ -153,7 +151,6 @@ document.addEventListener('DOMContentLoaded', function() {
         btns[1].classList.remove('serf_button_item_disabled');
       }
     }
-
     // левая кнопка
     btns[0].addEventListener('click', () => {
       if (currentIndex > 0) {
@@ -161,7 +158,6 @@ document.addEventListener('DOMContentLoaded', function() {
         updateCarousel();
       }
     });
-
     // правая кнопка
     btns[1].addEventListener('click', () => {
       if (currentIndex < maxIndex) {
@@ -174,6 +170,8 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 
+
+//раскрывающейся список
 document.addEventListener('DOMContentLoaded', function() {
   const button = document.querySelector('.more_button');
   const button2 = document.querySelector('.more_button_del');
@@ -190,4 +188,68 @@ document.addEventListener('DOMContentLoaded', function() {
     button2.style.display = 'none';
     button.style.display = 'flex';
   });
+});
+
+
+
+//слайдер о нас
+document.addEventListener('DOMContentLoaded', function() {
+  const slider = document.querySelector('.onas_slider');
+  const items = slider.querySelectorAll('.onas_item');
+  const buttons = document.querySelectorAll('.onas_button_item');
+  const dotsContainer = document.querySelector('.onas_dots');
+
+  let index = 0;
+  let width = items[0].offsetWidth;
+  const maxItem = items.length;
+
+  function dotsCreate() {
+    items.forEach(function(item, ind) {
+      let dot = document.createElement('div');
+      dot.classList.add('onas_dots_dot');
+      if (ind === 0) dot.classList.add('onas_dots_dot_active');
+      dot.addEventListener('click', function() {
+        index = ind;
+        uppdate();
+      });
+      dotsContainer.appendChild(dot);
+    });
+  }
+
+  function uppdate() {
+    let up = index * width;
+    let dotsList = dotsContainer.querySelectorAll('.onas_dots_dot');
+
+    slider.style.transform = `translateX(-${up}px)`;
+    buttons.forEach(n => n.classList.remove('onas_button_item_dis'));
+    dotsList.forEach(n => n.classList.remove('onas_dots_dot_active'));
+    dotsList[index].classList.add('onas_dots_dot_active');
+
+    if (index === 0) {
+      buttons[0].classList.add('onas_button_item_dis');
+    } else if (index === maxItem - 1) {
+      buttons[1].classList.add('onas_button_item_dis');
+    }
+  }
+
+  buttons.forEach((btn, ind) => {
+    btn.addEventListener('click', function() {
+      if (ind === 0) {
+        index--;
+      } else {
+        index++;
+      }
+      if (index < 0) index = 0;
+      if (index >= items.length) index = items.length - 1;
+      uppdate();
+    });
+  });
+
+  window.addEventListener('resize', () => {
+    width = items[0].offsetWidth;
+    uppdate();
+  });
+
+  dotsCreate();
+  uppdate();
 });
