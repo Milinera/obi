@@ -8,6 +8,7 @@ html {
 body {
   font-family: 'Manrope', sans-serif;
   font-weight: 400;
+  color: var(--black-white-black);
 }
 .nav {
   padding: 20px 0;
@@ -25,7 +26,7 @@ body {
       content: '>';
       margin-right: 8px;
     }
-    &_active {
+    &:last-child {
       color: #111;
     }
     &:first-child {
