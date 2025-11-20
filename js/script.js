@@ -1,181 +1,239 @@
-//слайдер с проектами компании
-document.addEventListener('DOMContentLoaded', function() {
-const wrapper = document.querySelector('.qul_wrapper');
-const items = document.querySelectorAll('.qul_item');
-const btns = document.querySelectorAll('.qul_button_item');
+// Универсальный класс для всех слайдеров
+class Slider {
+  constructor(container, options = {}) {
+    this.container = container;
+    this.wrapper = container.querySelector(options.wrapperSelector);
+    this.items = container.querySelectorAll(options.itemSelector);
+    this.buttons = options.buttonSelector
+      ? container.querySelectorAll(options.buttonSelector)
+      : [];
+    this.dotsContainer = options.dotsSelector
+      ? container.querySelector(options.dotsSelector)
+      : null;
 
-let currentIndex = 0;
-const visibleCount = 3;
-const itemWidth = items[0].offsetWidth + 20;
-const maxIndex = items.length - visibleCount;
+    this.index = 0;
+    this.visibleCount = options.visibleCount || 1;
+    this.gap = options.gap || 0;
+    this.getItemWidth = options.getItemWidth || (() => this.items[0]?.offsetWidth || 0);
 
-function updateCarousel() {
-  const offset = -(currentIndex * itemWidth);
-  wrapper.style.transform = `translateX(${offset}px)`;
+    this.prevDisabledClass = options.prevDisabledClass || 'disabled';
+    this.nextDisabledClass = options.nextDisabledClass || 'disabled';
+    this.dotClass = options.dotClass || 'dot';
+    this.dotActiveClass = options.dotActiveClass || 'active';
 
-  if (currentIndex === 0) {
-    btns[0].classList.add('qul_button_item_disabled');
-  } else {
-    btns[0].classList.remove('qul_button_item_disabled');
+    this.autoPlay = options.autoPlay || false;
+    this.interval = options.interval || 3000;
+    this.timer = null;
+
+    if (!this.wrapper || this.items.length === 0) return;
+
+    this.itemWidth = this.getItemWidth() + this.gap;
+    this.maxIndex = Math.max(0, this.items.length - this.visibleCount);
+
+    this.init();
   }
 
-  if (currentIndex === maxIndex) {
-    btns[1].classList.add('qul_button_item_disabled');
-  } else {
-    btns[1].classList.remove('qul_button_item_disabled');
+  init() {
+    if (this.buttons.length >= 2) {
+      this.buttons[0].addEventListener('click', () => { this.prev(); if (this.autoPlay) this.restartAutoPlay(); });
+      this.buttons[1].addEventListener('click', () => { this.next(); if (this.autoPlay) this.restartAutoPlay(); });
+    }
+
+    if (this.dotsContainer) this.createDots();
+
+    window.addEventListener('resize', () => {
+      this.itemWidth = this.getItemWidth() + this.gap;
+      this.update();
+    });
+
+    // свайп
+    let startX = 0;
+    this.wrapper.addEventListener('touchstart', e => {
+      startX = e.touches[0].clientX;
+    });
+    this.wrapper.addEventListener('touchend', e => {
+      const endX = e.changedTouches[0].clientX;
+      if (endX < startX - 50) this.next();
+      else if (endX > startX + 50) this.prev();
+      if (this.autoPlay) this.restartAutoPlay();
+    });
+
+    // пауза при наведении
+    this.container.addEventListener('mouseenter', () => {
+      if (this.autoPlay) clearInterval(this.timer);
+    });
+    this.container.addEventListener('mouseleave', () => {
+      if (this.autoPlay) this.startAutoPlay();
+    });
+
+    this.update();
+
+    if (this.autoPlay) this.startAutoPlay();
+  }
+
+  update() {
+    const offset = -(this.index * this.itemWidth);
+    this.wrapper.style.transform = `translateX(${offset}px)`;
+
+    if (this.buttons.length >= 2) {
+      this.buttons[0].classList.toggle(this.prevDisabledClass, this.index === 0);
+      this.buttons[1].classList.toggle(this.nextDisabledClass, this.index === this.maxIndex);
+    }
+
+    if (this.dotsContainer) this.updateDots();
+  }
+
+  prev() {
+    if (this.index > 0) {
+      this.index--;
+      this.update();
+    }
+  }
+
+  next() {
+    if (this.index < this.maxIndex) {
+      this.index++;
+      this.update();
+    } else if (this.autoPlay) {
+      this.index = 0; // возврат к началу при автопрокрутке
+      this.update();
+    }
+  }
+
+  createDots() {
+    this.dotsContainer.innerHTML = '';
+    this.items.forEach((_, i) => {
+      const dot = document.createElement('div');
+      dot.classList.add(this.dotClass);
+      if (i === 0) dot.classList.add(this.dotActiveClass);
+      dot.addEventListener('click', () => {
+        this.index = i;
+        this.update();
+        if (this.autoPlay) this.restartAutoPlay();
+      });
+      this.dotsContainer.appendChild(dot);
+    });
+  }
+
+  updateDots() {
+    const dots = this.dotsContainer.querySelectorAll(`.${this.dotClass}`);
+    dots.forEach(d => d.classList.remove(this.dotActiveClass));
+    if (dots[this.index]) dots[this.index].classList.add(this.dotActiveClass);
+  }
+
+  startAutoPlay() {
+    this.timer = setInterval(() => this.next(), this.interval);
+  }
+
+  restartAutoPlay() {
+    clearInterval(this.timer);
+    this.startAutoPlay();
   }
 }
 
-// левая кнопка
-btns[0].addEventListener('click', () => {
-  if (currentIndex > 0) {
-    currentIndex--;
-    updateCarousel();
+// Инициализация всех слайдеров
+document.addEventListener('DOMContentLoaded', () => {
+  // Слайдер с проектами компании
+  const qulRoot = document.querySelector('.qul');
+  if (qulRoot) {
+    new Slider(qulRoot, {
+      wrapperSelector: '.qul_wrapper',
+      itemSelector: '.qul_item',
+      buttonSelector: '.qul_button_item',
+      visibleCount: 3,
+      gap: 20,
+      prevDisabledClass: 'qul_button_item_disabled',
+      nextDisabledClass: 'qul_button_item_disabled',
+      autoPlay: true,
+      interval: 4000
+    });
   }
-});
 
-// правая кнопка
-btns[1].addEventListener('click', () => {
-  if (currentIndex < maxIndex) {
-    currentIndex++;
-    updateCarousel();
-  }
-});
-updateCarousel();
-});
-
-
-
-//слайдер внутри блоков с проектами компании
-document.addEventListener('DOMContentLoaded', function() {
-  const galleries = document.querySelectorAll('.qul_item_photo_galery');
-
-  galleries.forEach(gallery => {
-    const items = gallery.querySelectorAll('.qul_item_photo_galery_item');
-    const btns = gallery.parentElement.querySelector('.qul_item_photo_button'); 
-
-    let currentIndex = 0;
-    const itemWidth = items[0].offsetWidth;
-    let startX = 0;
-    let endX = 0;
-
-    function createButtons () {
-      items.forEach(function(item, index) {
-        let pogbut = document.createElement('div');
-        pogbut.classList.add('qul_item_photo_button_btn');
-        pogbut.addEventListener('click', () => {
-          currentIndex = index;
-          updateCarousel();
-          appButtons();
-        });
-        if (index === 0) {
-          pogbut.classList.add('qul_item_photo_button_btn_active');
-        }
-        btns.appendChild(pogbut);
+  // Слайдеры внутри блоков проектов (галереи с точками)
+  document.querySelectorAll('.qul_item_photo_galery').forEach(gallery => {
+    const root = gallery.parentElement;
+    if (root) {
+      new Slider(root, {
+        wrapperSelector: '.qul_item_photo_galery',
+        itemSelector: '.qul_item_photo_galery_item',
+        dotsSelector: '.qul_item_photo_button',
+        dotClass: 'qul_item_photo_button_btn',
+        dotActiveClass: 'qul_item_photo_button_btn_active',
+        autoPlay: false
       });
     }
-
-    function updateCarousel() {
-      const offset = itemWidth * currentIndex;
-      gallery.style.transform = `translateX(-${offset}px)`;
-    }
-
-    function appButtons() {
-      const buttons = btns.querySelectorAll('.qul_item_photo_button_btn');
-      buttons.forEach(btn => btn.classList.remove('qul_item_photo_button_btn_active'));
-      buttons[currentIndex].classList.add('qul_item_photo_button_btn_active');
-    }
-
-    gallery.addEventListener('touchstart', function(e) {
-      startX = e.touches[0].clientX;
-    });
-
-    gallery.addEventListener('touchend', function(e) {
-      endX = e.changedTouches[0].clientX;
-      if (endX < startX - 50 && currentIndex < items.length - 1) {
-        currentIndex++;
-        updateCarousel();
-        appButtons();
-      } else if (endX > startX + 50 && currentIndex > 0) {
-        currentIndex--;
-        updateCarousel();
-        appButtons();
-      }
-    });
-
-    createButtons();
-    updateCarousel();
   });
+
+  // Переключатель блоков "сертификаты/благодарности"
+  const serfButtons = document.querySelectorAll('.serf_buttons_button');
+  const serfBlocks = document.querySelectorAll('.serf_block');
+  if (serfButtons.length && serfBlocks.length) {
+    serfButtons.forEach(function(btn, index) {
+      btn.addEventListener('click', () => {
+        serfButtons.forEach(b => b.classList.remove('serf_buttons_button_active'));
+        serfBlocks.forEach(b => b.classList.remove('serf_block_active'));
+        btn.classList.add('serf_buttons_button_active');
+        serfBlocks[index].classList.add('serf_block_active');
+      });
+    });
+  }
+
+  // Слайдеры внутри каждого блока "сертификаты/благодарности"
+  document.querySelectorAll('.serf_block').forEach(block => {
+    new Slider(block, {
+      wrapperSelector: '.serf_wrapper',
+      itemSelector: '.serf_item',
+      buttonSelector: '.serf_button_item',
+      visibleCount: 3,
+      gap: 20,
+      prevDisabledClass: 'serf_button_item_disabled',
+      nextDisabledClass: 'serf_button_item_disabled',
+      autoPlay: true,
+      interval: 4000
+    });
+  });
+
+  // Слайдер "о нас"
+  const onasRoot = document.querySelector('.onas');
+  if (onasRoot) {
+    new Slider(onasRoot, {
+      wrapperSelector: '.onas_slider',
+      itemSelector: '.onas_item',
+      buttonSelector: '.onas_button_item',
+      dotsSelector: '.onas_dots',
+      prevDisabledClass: 'onas_button_item_dis',
+      nextDisabledClass: 'onas_button_item_dis',
+      dotClass: 'onas_dots_dot',
+      dotActiveClass: 'onas_dots_dot_active',
+      autoPlay: true,
+      interval: 5000
+    });
+  }
+
+  // Слайдер фото в карточке товара
+  const tovRoot = document.querySelector('.tov_galery');
+  if (tovRoot) {
+    new Slider(tovRoot, {
+      wrapperSelector: '.tov_galery_photos',
+      itemSelector: '.tov_galery_photos_item',
+      dotsSelector: '.tov_galery_button',
+      dotClass: 'tov_galery_button_btn',
+      dotActiveClass: 'tov_galery_button_btn_active',
+      autoPlay: true,
+      interval: 4000
+    });
+  }
 });
 
 
 
-//слайдер и переключатель для блока с благодарностями и сертификатами 
-document.addEventListener('DOMContentLoaded', function() {
-  const buttons = document.querySelectorAll('.serf_buttons_button');
-  const blocks = document.querySelectorAll('.serf_block');
-
-  buttons.forEach(function(btn, index) {
-    btn.addEventListener('click', () => {
-      buttons.forEach(b => b.classList.remove('serf_buttons_button_active'));
-      blocks.forEach(b => b.classList.remove('serf_block_active'));
-
-      btn.classList.add('serf_buttons_button_active');
-      blocks[index].classList.add('serf_block_active');
-    });
-  });
-
-  blocks.forEach(block => {
-    const wrapper = block.querySelector('.serf_wrapper');
-    const items = block.querySelectorAll('.serf_item');
-    const btns = block.querySelectorAll('.serf_button_item');
-
-    let currentIndex = 0;
-    const visibleCount = 3;
-    const itemWidth = items[0].offsetWidth + 20;
-    const maxIndex = items.length - visibleCount;
-
-    function updateCarousel() {
-      const offset = -(currentIndex * itemWidth);
-      wrapper.style.transform = `translateX(${offset}px)`;
-
-      if (currentIndex === 0) {
-        btns[0].classList.add('serf_button_item_disabled');
-      } else {
-        btns[0].classList.remove('serf_button_item_disabled');
-      }
-
-      if (currentIndex === maxIndex) {
-        btns[1].classList.add('serf_button_item_disabled');
-      } else {
-        btns[1].classList.remove('serf_button_item_disabled');
-      }
-    }
-    // левая кнопка
-    btns[0].addEventListener('click', () => {
-      if (currentIndex > 0) {
-        currentIndex--;
-        updateCarousel();
-      }
-    });
-    // правая кнопка
-    btns[1].addEventListener('click', () => {
-      if (currentIndex < maxIndex) {
-        currentIndex++;
-        updateCarousel();
-      }
-    });
-
-    updateCarousel();
-  });
-});
-
-
-//раскрывающейся список
+// раскрывающийся список
 document.addEventListener('DOMContentLoaded', function() {
   const button = document.querySelector('.more_button');
   const button2 = document.querySelector('.more_button_del');
   const text = document.querySelector('.more_text');
+
+  if (!button || !button2 || !text) return;
 
   button.addEventListener('click', function() {
     text.classList.add('more_text_active');
@@ -188,68 +246,4 @@ document.addEventListener('DOMContentLoaded', function() {
     button2.style.display = 'none';
     button.style.display = 'flex';
   });
-});
-
-
-
-//слайдер о нас
-document.addEventListener('DOMContentLoaded', function() {
-  const slider = document.querySelector('.onas_slider');
-  const items = slider.querySelectorAll('.onas_item');
-  const buttons = document.querySelectorAll('.onas_button_item');
-  const dotsContainer = document.querySelector('.onas_dots');
-
-  let index = 0;
-  let width = items[0].offsetWidth;
-  const maxItem = items.length;
-
-  function dotsCreate() {
-    items.forEach(function(item, ind) {
-      let dot = document.createElement('div');
-      dot.classList.add('onas_dots_dot');
-      if (ind === 0) dot.classList.add('onas_dots_dot_active');
-      dot.addEventListener('click', function() {
-        index = ind;
-        uppdate();
-      });
-      dotsContainer.appendChild(dot);
-    });
-  }
-
-  function uppdate() {
-    let up = index * width;
-    let dotsList = dotsContainer.querySelectorAll('.onas_dots_dot');
-
-    slider.style.transform = `translateX(-${up}px)`;
-    buttons.forEach(n => n.classList.remove('onas_button_item_dis'));
-    dotsList.forEach(n => n.classList.remove('onas_dots_dot_active'));
-    dotsList[index].classList.add('onas_dots_dot_active');
-
-    if (index === 0) {
-      buttons[0].classList.add('onas_button_item_dis');
-    } else if (index === maxItem - 1) {
-      buttons[1].classList.add('onas_button_item_dis');
-    }
-  }
-
-  buttons.forEach((btn, ind) => {
-    btn.addEventListener('click', function() {
-      if (ind === 0) {
-        index--;
-      } else {
-        index++;
-      }
-      if (index < 0) index = 0;
-      if (index >= items.length) index = items.length - 1;
-      uppdate();
-    });
-  });
-
-  window.addEventListener('resize', () => {
-    width = items[0].offsetWidth;
-    uppdate();
-  });
-
-  dotsCreate();
-  uppdate();
 });
