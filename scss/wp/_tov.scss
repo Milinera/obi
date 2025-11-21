@@ -12,6 +12,8 @@
         grid-template-columns: 68fr 48fr;
         gap: 20px;
         margin-top: 40px;
+        border: 1px solid var(--grey-light2);
+        padding-bottom: 40px;
     }
     &_galery {
         overflow: hidden;
@@ -107,6 +109,98 @@
                 font-size: 16px;
                 line-height: 150%;
             }
+        }
+    }
+    &_price {
+        margin-top: 44px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        &_item {
+            width: 100%;
+            &_text {
+                font-weight: 500;
+                font-size: 14px;
+                line-height: 130%;
+                text-align: center;
+                color: var(--grey-main);
+            }
+            &_price {
+                font-weight: 700;
+                font-size: 26px;
+                line-height: 130%;
+                text-align: center;
+            }
+            &:first-child {
+                margin-right: 12px;
+                border-right: 1px solid var(--grey-light3);
+            }
+            &:last-child {
+                margin-left: 12px;
+            }
+        }
+    }
+    &_col {
+        margin-top: 20px;
+        padding: 13px 12px;
+        display: flex;
+        justify-content: space-between;
+        background: var(--grey-light4);
+        &_main {
+            font-weight: 600;
+            font-size: 18px;
+            line-height: 130%;
+            text-align: center;
+        }
+        &_plus {
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            svg {
+                height: 22px;
+                width: 22px;
+            }
+            &:hover {
+                color: var(--primary-main);
+            }
+        }
+        &_mun {
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            svg {
+                height: 22px;
+                width: 22px;
+            }
+            &:hover {
+                color: var(--primary-main);
+            }
+        }
+    }
+    &_buy {
+        margin-top: 12px;
+        display: grid;
+        grid-template-columns: auto 1fr;
+        justify-content: space-between;
+        gap: 12px;
+        &_more {
+            border-radius: 2px;
+            padding: 16.5px 20px;
+            background: var(--primary-main);
+            font-weight: 600;
+            font-size: 18px;
+            line-height: 130%;
+            text-align: center;
+            color: #fff;
+        }
+        &_shop {
+            border-radius: 2px;
+            padding: 16.5px 20px;
+            background: var(--grey-light3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
     }
     
