@@ -247,3 +247,113 @@ document.addEventListener('DOMContentLoaded', function() {
     button.style.display = 'flex';
   });
 });
+
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  const radios = document.querySelectorAll('input[name="delivery"]');
+  const samBlock = document.querySelector('.dost_main_switc_sam');
+  const dostBlock = document.querySelector('.dost_main_switc_dost');
+
+  function updateBlocks() {
+    const selected = document.querySelector('input[name="delivery"]:checked').value;
+    if (selected === "sam") {
+      samBlock.style.display = "block";
+      dostBlock.style.display = "none";
+    } else {
+      samBlock.style.display = "none";
+      dostBlock.style.display = "block";
+    }
+  }
+  radios.forEach(radio => {
+    radio.addEventListener("change", updateBlocks);
+  });
+  updateBlocks();
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+  const buttons = document.querySelectorAll('.dost_main_switc_dost_buttons_button');
+  const urBlock = document.querySelector('.dost_main_switc_dost_ur');
+  const fzBlock = document.querySelector('.dost_main_switc_dost_fz');
+
+  function activateButton(clickedButton) {
+    buttons.forEach(btn => btn.classList.remove('dost_main_switc_dost_buttons_button_active'));
+    clickedButton.classList.add('dost_main_switc_dost_buttons_button_active');
+    if (clickedButton.textContent.includes("Юр")) {
+      urBlock.style.display = "block";
+      fzBlock.style.display = "none";
+    } else {
+      urBlock.style.display = "none";
+      fzBlock.style.display = "block";
+    }
+  }
+  buttons.forEach(btn => {
+    btn.addEventListener("click", () => activateButton(btn));
+  });
+  activateButton(document.querySelector('.dost_main_switc_dost_buttons_button_active'));
+});
+
+
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  const buttons = document.querySelectorAll('.dost_buttons_button');
+  const mainBlock = document.querySelector('.dost_main');
+  const oplBlock = document.querySelector('.dost_opl');
+
+  function activateButton(clickedButton) {
+    // снимаем активность со всех кнопок
+    buttons.forEach(btn => btn.classList.remove('dost_buttons_button_active'));
+    // добавляем активность на выбранную
+    clickedButton.classList.add('dost_buttons_button_active');
+
+    // переключаем блоки
+    if (clickedButton.textContent.includes("Доставка")) {
+      mainBlock.style.display = "block";
+      oplBlock.style.display = "none";
+    } else {
+      mainBlock.style.display = "none";
+      oplBlock.style.display = "block";
+    }
+  }
+
+  // навешиваем обработчики
+  buttons.forEach(btn => {
+    btn.addEventListener("click", () => activateButton(btn));
+  });
+
+  // инициализация: активна "Доставка"
+  activateButton(document.querySelector('.dost_buttons_button_active'));
+});
+
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  const buttons = document.querySelectorAll('.dost_opl_switc_dost_dot');
+  const urBlock = document.querySelector('.dost_opl_switc_ur');
+  const fzBlock = document.querySelector('.dost_opl_switc_fz');
+
+  function activateButton(clickedButton) {
+    // снимаем активность со всех кнопок
+    buttons.forEach(btn => btn.classList.remove('dost_opl_switc_dost_dot_active'));
+    // добавляем активность на выбранную
+    clickedButton.classList.add('dost_opl_switc_dost_dot_active');
+
+    // переключаем блоки
+    if (clickedButton.textContent.includes("Юр")) {
+      urBlock.style.display = "block";
+      fzBlock.style.display = "none";
+    } else {
+      urBlock.style.display = "none";
+      fzBlock.style.display = "block";
+    }
+  }
+
+  // навешиваем обработчики
+  buttons.forEach(btn => {
+    btn.addEventListener("click", () => activateButton(btn));
+  });
+
+  // инициализация: активна "Физ лица"
+  activateButton(buttons[1]); // второй элемент — "Для Физ лиц"
+});
