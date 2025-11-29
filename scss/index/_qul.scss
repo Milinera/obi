@@ -23,9 +23,10 @@
         overflow: visible;
         gap: 20px;
         transition: transform 0.5s ease;
+        width: 100%;
     }
     &_item {    
-        flex: 0 0 33%;
+        flex: 0 0 calc(33.333% - 40px / 3);
         &_photo {
             height: 470px;
             width: 100%;

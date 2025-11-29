@@ -27,10 +27,24 @@ class Slider {
 
     if (!this.wrapper || this.items.length === 0) return;
 
-    this.itemWidth = this.getItemWidth() + this.gap;
-    this.maxIndex = Math.max(0, this.items.length - this.visibleCount);
-
+    this.recalcLimits();
     this.init();
+  }
+
+  isMobile() {
+    return this.container.clientWidth < 1000;
+  }
+
+  recalcLimits() {
+    this.itemWidth = this.getItemWidth() + this.gap;
+    if (this.isMobile()) {
+      // на узких экранах листаем до последнего элемента
+      this.maxIndex = this.items.length - 1;
+    } else {
+      // на широких экранах учитываем visibleCount
+      this.maxIndex = Math.max(0, this.items.length - this.visibleCount);
+    }
+    if (this.index > this.maxIndex) this.index = this.maxIndex;
   }
 
   init() {
@@ -42,7 +56,7 @@ class Slider {
     if (this.dotsContainer) this.createDots();
 
     window.addEventListener('resize', () => {
-      this.itemWidth = this.getItemWidth() + this.gap;
+      this.recalcLimits();
       this.update();
     });
 
@@ -90,12 +104,12 @@ class Slider {
     }
   }
 
-  next() {
+  next(isAuto = false) {
     if (this.index < this.maxIndex) {
       this.index++;
       this.update();
-    } else if (this.autoPlay) {
-      this.index = 0; // возврат к началу при автопрокрутке
+    } else if (isAuto && this.autoPlay) {
+      this.index = 0; // возврат к началу только при автопрокрутке
       this.update();
     }
   }
@@ -122,14 +136,17 @@ class Slider {
   }
 
   startAutoPlay() {
-    this.timer = setInterval(() => this.next(), this.interval);
+    if (this.timer) return;
+    this.timer = setInterval(() => this.next(true), this.interval);
   }
 
   restartAutoPlay() {
     clearInterval(this.timer);
+    this.timer = null;
     this.startAutoPlay();
   }
 }
+
 
 // Инициализация всех слайдеров
 document.addEventListener('DOMContentLoaded', () => {
@@ -189,7 +206,7 @@ document.addEventListener('DOMContentLoaded', () => {
       prevDisabledClass: 'serf_button_item_disabled',
       nextDisabledClass: 'serf_button_item_disabled',
       autoPlay: true,
-      interval: 4000
+      interval: 40000
     });
   });
 
@@ -225,52 +242,55 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-
-
 // раскрывающийся список
 document.addEventListener('DOMContentLoaded', function() {
   const button = document.querySelector('.more_button');
   const button2 = document.querySelector('.more_button_del');
   const text = document.querySelector('.more_text');
 
-  if (!button || !button2 || !text) return;
+  if (button && button2 && text) {
+    button.addEventListener('click', function() {
+      text.classList.add('more_text_active');
+      button.style.display = 'none';
+      button2.style.display = 'block';
+    });
 
-  button.addEventListener('click', function() {
-    text.classList.add('more_text_active');
-    button.style.display = 'none';
-    button2.style.display = 'block';
-  });
-
-  button2.addEventListener('click', function() {
-    text.classList.remove('more_text_active');
-    button2.style.display = 'none';
-    button.style.display = 'flex';
-  });
+    button2.addEventListener('click', function() {
+      text.classList.remove('more_text_active');
+      button2.style.display = 'none';
+      button.style.display = 'flex';
+    });
+  }
 });
 
 
-
+// переключение доставки/самовывоз
 document.addEventListener("DOMContentLoaded", function() {
   const radios = document.querySelectorAll('input[name="delivery"]');
   const samBlock = document.querySelector('.dost_main_switc_sam');
   const dostBlock = document.querySelector('.dost_main_switc_dost');
 
   function updateBlocks() {
-    const selected = document.querySelector('input[name="delivery"]:checked').value;
+    const checked = document.querySelector('input[name="delivery"]:checked');
+    if (!checked) return;
+    const selected = checked.value;
     if (selected === "sam") {
-      samBlock.style.display = "block";
-      dostBlock.style.display = "none";
+      if (samBlock) samBlock.style.display = "block";
+      if (dostBlock) dostBlock.style.display = "none";
     } else {
-      samBlock.style.display = "none";
-      dostBlock.style.display = "block";
+      if (samBlock) samBlock.style.display = "none";
+      if (dostBlock) dostBlock.style.display = "block";
     }
   }
-  radios.forEach(radio => {
-    radio.addEventListener("change", updateBlocks);
-  });
-  updateBlocks();
+
+  if (radios.length && samBlock && dostBlock) {
+    radios.forEach(radio => radio.addEventListener("change", updateBlocks));
+    updateBlocks();
+  }
 });
 
+
+// переключение Юр/Физ в блоке доставки
 document.addEventListener("DOMContentLoaded", function() {
   const buttons = document.querySelectorAll('.dost_main_switc_dost_buttons_button');
   const urBlock = document.querySelector('.dost_main_switc_dost_ur');
@@ -280,80 +300,82 @@ document.addEventListener("DOMContentLoaded", function() {
     buttons.forEach(btn => btn.classList.remove('dost_main_switc_dost_buttons_button_active'));
     clickedButton.classList.add('dost_main_switc_dost_buttons_button_active');
     if (clickedButton.textContent.includes("Юр")) {
-      urBlock.style.display = "block";
-      fzBlock.style.display = "none";
+      if (urBlock) urBlock.style.display = "block";
+      if (fzBlock) fzBlock.style.display = "none";
     } else {
-      urBlock.style.display = "none";
-      fzBlock.style.display = "block";
+      if (urBlock) urBlock.style.display = "none";
+      if (fzBlock) fzBlock.style.display = "block";
     }
   }
-  buttons.forEach(btn => {
-    btn.addEventListener("click", () => activateButton(btn));
-  });
-  activateButton(document.querySelector('.dost_main_switc_dost_buttons_button_active'));
+
+  if (buttons.length && urBlock && fzBlock) {
+    buttons.forEach(btn => btn.addEventListener("click", () => activateButton(btn)));
+    const activeBtn = document.querySelector('.dost_main_switc_dost_buttons_button_active');
+    if (activeBtn) activateButton(activeBtn);
+  }
 });
 
 
-
-
+// переключение Доставка/Оплата
 document.addEventListener("DOMContentLoaded", function() {
   const buttons = document.querySelectorAll('.dost_buttons_button');
   const mainBlock = document.querySelector('.dost_main');
   const oplBlock = document.querySelector('.dost_opl');
 
   function activateButton(clickedButton) {
-    // снимаем активность со всех кнопок
     buttons.forEach(btn => btn.classList.remove('dost_buttons_button_active'));
-    // добавляем активность на выбранную
     clickedButton.classList.add('dost_buttons_button_active');
 
-    // переключаем блоки
     if (clickedButton.textContent.includes("Доставка")) {
-      mainBlock.style.display = "block";
-      oplBlock.style.display = "none";
+      if (mainBlock) mainBlock.style.display = "block";
+      if (oplBlock) oplBlock.style.display = "none";
     } else {
-      mainBlock.style.display = "none";
-      oplBlock.style.display = "block";
+      if (mainBlock) mainBlock.style.display = "none";
+      if (oplBlock) oplBlock.style.display = "block";
     }
   }
 
-  // навешиваем обработчики
-  buttons.forEach(btn => {
-    btn.addEventListener("click", () => activateButton(btn));
-  });
-
-  // инициализация: активна "Доставка"
-  activateButton(document.querySelector('.dost_buttons_button_active'));
+  if (buttons.length && mainBlock && oplBlock) {
+    buttons.forEach(btn => btn.addEventListener("click", () => activateButton(btn)));
+    const activeBtn = document.querySelector('.dost_buttons_button_active');
+    if (activeBtn) activateButton(activeBtn);
+  }
 });
 
 
-
+// переключение Юр/Физ в блоке оплаты
 document.addEventListener("DOMContentLoaded", function() {
   const buttons = document.querySelectorAll('.dost_opl_switc_dost_dot');
   const urBlock = document.querySelector('.dost_opl_switc_ur');
   const fzBlock = document.querySelector('.dost_opl_switc_fz');
 
   function activateButton(clickedButton) {
-    // снимаем активность со всех кнопок
     buttons.forEach(btn => btn.classList.remove('dost_opl_switc_dost_dot_active'));
-    // добавляем активность на выбранную
     clickedButton.classList.add('dost_opl_switc_dost_dot_active');
 
-    // переключаем блоки
     if (clickedButton.textContent.includes("Юр")) {
-      urBlock.style.display = "block";
-      fzBlock.style.display = "none";
+      if (urBlock) urBlock.style.display = "block";
+      if (fzBlock) fzBlock.style.display = "none";
     } else {
-      urBlock.style.display = "none";
-      fzBlock.style.display = "block";
+      if (urBlock) urBlock.style.display = "none";
+      if (fzBlock) fzBlock.style.display = "block";
     }
   }
 
-  // навешиваем обработчики
-  buttons.forEach(btn => {
-    btn.addEventListener("click", () => activateButton(btn));
-  });
+  if (buttons.length && urBlock && fzBlock) {
+    buttons.forEach(btn => btn.addEventListener("click", () => activateButton(btn)));
+    if (buttons.length > 1) activateButton(buttons[1]); // второй элемент — "Для Физ лиц"
+  }
+});
 
-  // инициализация: активна "Физ лица"
-  activateButton(buttons[1]); // второй элемент — "Для Физ лиц"
+
+// бургер-меню
+document.addEventListener("DOMContentLoaded", function() {
+  const main = document.querySelector('.header_mobile_main_burger');
+  const dop = document.querySelector('.header_mobile');
+  if (main && dop) {
+    main.addEventListener('click', () => {
+      dop.classList.toggle('active');
+    });
+  }
 });

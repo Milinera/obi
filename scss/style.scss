@@ -29,3 +29,9 @@
 @use 'wp/archive';
 @use 'wp/tov';
 @use 'wp/dost';
+
+@use 'main/media';
+
+* {
+  outline: 1px solid red;
+}

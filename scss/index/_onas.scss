@@ -26,6 +26,11 @@
             padding: 85px;
             background: var(--grey-light4);
             border-radius: 5px;
+            display: flex;
+            align-items: center;
+            img {
+                object-fit: contain;
+            }
         }
     }
     &_block {

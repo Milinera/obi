@@ -112,4 +112,52 @@
             }
         }
     }
-}   
+    &_mobile {
+        height: 50px;
+        display: none;
+        top: 0;
+        &_main {
+            &_burger {
+                width: 30px;
+                height: 24px;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                cursor: pointer;
+                span {
+                    display: block;
+                    height: 4px;
+                    background-color: #333;
+                    border-radius: 2px;
+                    transition: all 0.3s ease;
+                }
+
+            }
+        }
+        &_top {
+            position: fixed;
+            background: #f2f2f2;
+            width: 100vw;
+            height: calc(100vh - 50px);
+            right: -110%;
+            top: 50px;
+            padding: 30px 20px;
+            border-top: 2px solid #fff;
+            transition: all 0.3s ease;
+        }
+    }
+    .active {
+        span:nth-child(1) {
+            transform: translateY(10px) rotate(45deg);
+        }
+        span:nth-child(2) {
+            opacity: 0;
+        }
+        span:nth-child(3) {
+            transform: translateY(-10px) rotate(-45deg);
+        }
+        .header_mobile_top {
+            right: 0px;
+        }
+    }
+}
