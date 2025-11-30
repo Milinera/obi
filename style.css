@@ -1163,6 +1163,7 @@ body {
   text-align: center;
 }
 .serf_block {
+  display: none;
   top: 0;
   overflow: hidden;
   visibility: hidden;
@@ -1170,6 +1171,7 @@ body {
   position: absolute;
 }
 .serf_block_active {
+  display: block;
   overflow: visible;
   visibility: visible;
   opacity: 1;
@@ -3453,7 +3455,4 @@ body {
   .header_bottom {
     display: none;
   }
-}
-* {
-  outline: 1px solid red;
 }

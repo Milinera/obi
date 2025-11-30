@@ -205,8 +205,7 @@ document.addEventListener('DOMContentLoaded', () => {
       gap: 20,
       prevDisabledClass: 'serf_button_item_disabled',
       nextDisabledClass: 'serf_button_item_disabled',
-      autoPlay: true,
-      interval: 40000
+      autoPlay: false
     });
   });
 

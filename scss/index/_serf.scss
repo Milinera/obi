@@ -10,12 +10,14 @@
         text-align: center;
     }
     &_block {
+        display: none;
         top: 0;
         overflow: hidden;
         visibility: hidden;
         opacity: 0;
         position: absolute;
         &_active {
+            display: block;
             overflow: visible;
             visibility: visible;
             opacity: 1;
