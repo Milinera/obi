@@ -95,6 +95,9 @@
         }
     }
     &_bottom {
+        .footer_top_left_icon {
+            display: none;
+        }
         margin-top: 23px;
         display: flex;
         justify-content: space-between;

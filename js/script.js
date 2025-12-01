@@ -374,7 +374,7 @@ document.addEventListener("DOMContentLoaded", function() {
   const dop = document.querySelector('.header_mobile');
   if (main && dop) {
     main.addEventListener('click', () => {
-      dop.classList.toggle('active');
+      dop.classList.toggle('active_menu');
     });
   }
 });
